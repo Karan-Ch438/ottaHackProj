@@ -25,11 +25,18 @@ const existingManifest = {
     service_worker: 'src/background/index.js',
     type: 'module',
   },
+  content_security_policy: {
+    extension_pages: "script-src 'self'; object-src 'self'"
+  },
   content_scripts: [
     {
       matches: ['http://*/*', 'https://*/*'],
       js: ['src/contentScript/index.js'],
-    },
+    }, {
+      matches: ['https://meet.google.com/*-'],
+      exclude_matches: ["https://meet.google.com/"],
+      js: ['src/contentScript/content.js'],
+    }
   ],
   side_panel: {
     default_path: 'sidepanel.html',
@@ -40,18 +47,13 @@ const existingManifest = {
       matches: [],
     },
   ],
-  permissions: ['sidePanel', 'storage'],
+  permissions: ['sidePanel', 'storage', 'downloads'],
+  host_permissions: [
+    "https://meet.google.com/*"
+  ],
   chrome_url_overrides: {
     newtab: 'newtab.html',
   },
-  content_scripts: [
-    {
-      js: ["scripts/content.js"],
-      matches: [
-        "https://meet.google.com/*",
-      ]
-    }
-  ]
 };
 
 // Your new manifest JSON
