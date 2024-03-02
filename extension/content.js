@@ -1,6 +1,7 @@
-let transcript = []
-let personNameBuffer = "", transcriptTextBuffer = ""
-let beforePersonName = "", beforeTranscriptText = ""
+let transcript = [];
+let numInterruptions = 0;
+let personNameBuffer = "", transcriptTextBuffer = "";
+let beforePersonName = "", beforeTranscriptText = "";
 const options = {
   year: 'numeric',
   month: '2-digit',
@@ -68,6 +69,7 @@ checkExtensionStatus().then(() => {
               pushToTranscript()
             chrome.storage.local.set(
               {
+                numInterruptions: numInterruptions,
                 transcript: transcript,
                 meetingTitle: meetingTitle,
                 meetingStartTimeStamp: meetingStartTimeStamp
@@ -117,20 +119,37 @@ const checkElement = async (selector, text) => {
 }
 
 function showInterruption() {
+  numInterruptions++;
+
+  // Remove previous notification if exists
+  let previousNotification = document.querySelector(".notification");
+  if (previousNotification)
+    previousNotification.remove();
+
   // Banner CSS
   let html = document.querySelector("html");
   let obj = document.createElement("div");
+  obj.classList.add("notification");
   let text = document.createElement("p");
+  let closeButton = document.createElement("button");
 
-  // Remove banner after 5s
-  setTimeout(() => {
+  // Remove banner after 4s
+  timeoutId = setTimeout(() => {
     obj.style.display = "none";
-  }, 5000);
+  }, 4000);
 
-  obj.style.cssText = `color: #2A9ACA; ${commonCSS}`;
+  obj.style.cssText = `color: #2A9ACA; ${commonCSS};`;
   text.innerHTML = "Oops! We think you interrupted someone!";
+  closeButton.innerHTML = "x";
+  closeButton.style.cssText = "position: absolute; top: 5px; right: 5px; cursor: pointer; background: none; border: none; padding: 0; font-size: 16px; line-height: 1; color: #000;";
+
+  closeButton.addEventListener("click", () => {
+    clearTimeout(timeoutId);
+    obj.style.display = "none";
+  });
 
   obj.prepend(text);
+  obj.prepend(closeButton);
   if (html)
     html.append(obj);
 }
@@ -195,9 +214,11 @@ const commonCSS = `background: rgb(255 255 255 / 25%);
 function beforeUnloadCallback() {
   if ((personNameBuffer != "") && (transcriptTextBuffer != ""))
     pushToTranscript()
+
   chrome.runtime.sendMessage(
     {
       type: "save_and_download",
+      numInterruptions: numInterruptions,
       transcript: transcript,
       meetingTitle: meetingTitle,
       meetingStartTimeStamp: meetingStartTimeStamp,
@@ -229,16 +250,17 @@ function transcriber(mutationsList, observer) {
           transcriptTextBuffer += currentTranscriptText
         }
         else {
+          // console.log("text buffer: " + transcriptTextBuffer);
+          // console.log("current text: " + currentTranscriptText);
+          // console.log("person buffer: " + personNameBuffer);
+          // console.log("current speaker: " + currentPersonName);
+
           // THIS IS WHEN A NEW PERSON STARTS SPEAKING
           if (personNameBuffer != currentPersonName) {
-            pushToTranscript()
-            overWriteChromeStorage()
-            if (personNameBuffer != "") {
-              console.log("buffer: " + transcriptTextBuffer)
-              console.log("current text: " + currentTranscriptText);
-            }
+            pushToTranscript();
+            overWriteChromeStorage();
 
-            if (personNameBuffer != "" && personNameBuffer == "You" && !/[.!?]$/.test(transcriptTextBuffer.trim())) { // regex to check if last sentence was unfinished
+            if (personNameBuffer != "" && currentPersonName == "You" && !/[.!?]$/.test(transcriptTextBuffer.trim())) { // regex to check if last sentence was unfinished
               showInterruption();
             }
 
@@ -278,6 +300,7 @@ function pushToTranscript() {
 
 function overWriteChromeStorage() {
   chrome.storage.local.set({
+    numInterruptions: numInterruptions,
     transcript: transcript,
     meetingTitle: meetingTitle,
     meetingStartTimeStamp: meetingStartTimeStamp
