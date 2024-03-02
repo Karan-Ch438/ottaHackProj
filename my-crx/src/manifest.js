@@ -36,6 +36,7 @@ const existingManifest = {
       matches: ['https://meet.google.com/*-'],
       exclude_matches: ["https://meet.google.com/"],
       js: ['src/contentScript/content.js'],
+      run_at: "document_end",
     }
   ],
   side_panel: {
