@@ -1,9 +1,10 @@
-import { defineManifest } from '@crxjs/vite-plugin'
-import packageData from '../package.json' assert { type: 'json' }
+import { defineManifest } from '@crxjs/vite-plugin';
+import packageData from '../package.json' assert { type: 'json' };
 
-const isDev = process.env.NODE_ENV == 'development'
+const isDev = process.env.NODE_ENV == 'development';
 
-export default defineManifest({
+// Your existing manifest object
+const existingManifest = {
   name: `${packageData.displayName || packageData.name}${isDev ? ` ➡️ Dev` : ''}`,
   description: packageData.description,
   version: packageData.version,
@@ -43,4 +44,26 @@ export default defineManifest({
   chrome_url_overrides: {
     newtab: 'newtab.html',
   },
-})
+  content_scripts: [
+    {
+      js: ["scripts/content.js"],
+      matches: [
+        "https://meet.google.com/*",
+      ]
+    }
+  ]
+};
+
+// Your new manifest JSON
+const newManifest = {
+  manifest_version: 3,
+  name: "Reading time",
+  version: "1.0",
+  description: "Add the reading time to Chrome Extension documentation articles",
+};
+
+// Merge the two manifests
+const mergedManifest = { ...existingManifest, ...newManifest };
+
+// Define the manifest using defineManifest function
+export default defineManifest(mergedManifest);
