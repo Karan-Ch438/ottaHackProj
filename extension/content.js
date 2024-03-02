@@ -116,6 +116,25 @@ const checkElement = async (selector, text) => {
   return document.querySelector(selector);
 }
 
+function showInterruption() {
+  // Banner CSS
+  let html = document.querySelector("html");
+  let obj = document.createElement("div");
+  let text = document.createElement("p");
+
+  // Remove banner after 5s
+  setTimeout(() => {
+    obj.style.display = "none";
+  }, 5000);
+
+  obj.style.cssText = `color: #2A9ACA; ${commonCSS}`;
+  text.innerHTML = "Oops! We think you interrupted someone!";
+
+  obj.prepend(text);
+  if (html)
+    html.append(obj);
+}
+
 function showNotification(extensionStatusJSON) {
   // Banner CSS
   let html = document.querySelector("html");
@@ -151,25 +170,25 @@ function showNotification(extensionStatusJSON) {
     html.append(obj);
 }
 
-const commonCSS = `background: rgb(255 255 255 / 25%); 
-    backdrop-filter: blur(16px); 
+const commonCSS = `background: rgb(255 255 255 / 25%);
+    backdrop-filter: blur(16px);
     position: fixed;
-    top: 5%; 
-    left: 0; 
-    right: 0; 
-    margin-left: auto; 
+    top: 5%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
     margin-right: auto;
-    max-width: 780px;  
-    z-index: 1000; 
+    max-width: 780px;
+    z-index: 1000;
     padding: 0rem 1rem;
-    border-radius: 8px; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    gap: 16px;  
-    font-size: 1rem; 
-    line-height: 1.5; 
-    font-family: 'Google Sans',Roboto,Arial,sans-serif; 
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: 'Google Sans',Roboto,Arial,sans-serif;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;`;
 
 
@@ -210,6 +229,7 @@ function transcriber(mutationsList, observer) {
           transcriptTextBuffer += currentTranscriptText
         }
         else {
+          // THIS IS WHEN A NEW PERSON STARTS SPEAKING
           if (personNameBuffer != currentPersonName) {
             pushToTranscript()
             overWriteChromeStorage()
@@ -287,5 +307,3 @@ async function checkExtensionStatus() {
       console.log(err);
     });
 }
-
-
