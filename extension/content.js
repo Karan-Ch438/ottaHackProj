@@ -233,11 +233,20 @@ function transcriber(mutationsList, observer) {
           if (personNameBuffer != currentPersonName) {
             pushToTranscript()
             overWriteChromeStorage()
+            if (personNameBuffer != "") {
+              console.log("buffer: " + transcriptTextBuffer)
+              console.log("current text: " + currentTranscriptText);
+            }
+
+            if (personNameBuffer != "" && personNameBuffer == "You" && !/[.!?]$/.test(transcriptTextBuffer.trim())) { // regex to check if last sentence was unfinished
+              showInterruption();
+            }
+
             beforeTranscriptText = currentTranscriptText
             personNameBuffer = currentPersonName;
             transcriptTextBuffer = currentTranscriptText;
           }
-          else {
+          else { // SAME PERSON SPEAKING
             transcriptTextBuffer += currentTranscriptText.substring(currentTranscriptText.indexOf(beforeTranscriptText) + beforeTranscriptText.length)
             beforeTranscriptText = currentTranscriptText
           }
@@ -257,7 +266,7 @@ function transcriber(mutationsList, observer) {
       console.log(transcriptTextBuffer)
       // console.log(transcript)
     })
-  }, 1000);
+  }, 500); // was originally 1000
 }
 
 function pushToTranscript() {
