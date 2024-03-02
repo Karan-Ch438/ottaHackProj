@@ -288,4 +288,7 @@ async function checkExtensionStatus() {
     });
 }
 
+//make the api call to gpt to summarize the transcript
+
+
 

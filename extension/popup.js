@@ -29,12 +29,12 @@ window.onload = function () {
         alert("Couldn't find the last meeting's transcript. May be attend one?")
     })
   })
-  lastMeetingTranscriptLink.addEventListener("click", () => {
+  lastMeetingSummaryLink.addEventListener("click", () => {
     chrome.storage.local.get(["transcript"], function (result) {
         if (result.transcript) {
             const transcript = result.transcript;
             const apiKey = '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'; // Replace with your actual API key
-            const apiEndpoint = 'https://api.openai.com/v1/summarization';
+            const apiEndpoint = 'https://api.openai.com/v1/engines/text-davinci-002/completions';
 
             // Make API request to OpenAI for summarization
             fetch(apiEndpoint, {
@@ -44,7 +44,7 @@ window.onload = function () {
                     'Authorization': 'Bearer ' + apiKey,
                 },
                 body: JSON.stringify({
-                    model: 'text-davinci-002', // Specify the GPT model
+                    model: 'text-davinci-003', // Specify the GPT model
                     prompt: `Summarize the following transcript for a google meet. Do it in bullent point form. Make sure to include any important information: \n${transcript}`,
                     max_tokens: 150, // Adjust the number of tokens for desired summary length
                 }),
