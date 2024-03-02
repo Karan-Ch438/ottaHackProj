@@ -34,7 +34,7 @@ window.onload = function () {
         if (result.transcript) {
             const transcript = result.transcript;
             const apiKey = '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'; // Replace with your actual API key
-            const apiEndpoint = 'https://api.openai.com/v1/engines/text-davinci-002/completions';
+            const apiEndpoint = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
 
             // Make API request to OpenAI for summarization
             fetch(apiEndpoint, {
