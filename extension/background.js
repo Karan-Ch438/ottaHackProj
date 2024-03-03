@@ -37,6 +37,12 @@ function downloadTranscript() {
             lines.push("---")
             lines.push("Transcript saved using TranscripTonic Chrome extension (https://chromewebstore.google.com/detail/ciepnfnceimjehngolkijpnbappkkiag)")
 
+            const openAIKey = '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'
+
+            const chatGPTResponse = getGPTMessage(result.transcript, openAIKey);
+
+            lines.push("Summary:")
+            lines.push(chatGPTResponse)
 
             // Join the lines into a single string
             const textContent = lines.join('\n');
@@ -66,6 +72,56 @@ function downloadTranscript() {
             console.log("No transcript found")
     })
 }
+
+async function getGPTMessage(message, openAIKey) {
+    try {
+        // Call the function using await
+        const response = await postChatGPTMessage(message, openAIKey);
+        // Use the response here
+        console.log(response);
+        return response;
+    } catch (error) {
+        // Handle errors here
+        console.error('Error:', error);
+        return null;
+    }
+}
+
+const postChatGPTMessage = async (message, openAIKey) => {
+    // Set headers for the axios request
+    const config = {
+      headers: {
+        Authorization: `Bearer ${openAIKey}`,
+      },
+    };
+  
+    // Create the message object to send to the API
+    const userMessage = { role: "user", content: message };
+  
+    // Define the data to send in the request body
+    const chatGPTData = {
+      model: 'gpt-3.5-turbo',
+      messages: [userMessage],
+    };
+  
+    try {
+      // Send a POST request to the ChatGPT API
+      let endpoint = "https://api.openai.com/v1/chat/completions"
+      const response = await axios.post(endpoint, chatGPTData, config);
+  
+      // Extract the message content from the API response
+      const message = response?.data?.choices[0]?.message.content;
+  
+      // Return the message content
+      return message;
+    } catch (error) {
+      console.error("Error with ChatGPT API"); // Log error message
+      console.error(error);
+  
+      // Return null if an error occurs
+      return null;
+    }
+  };
 
 // Thanks to @ifTNT(https://github.com/vivek-nexus/transcriptonic/pull/4)
 function encodeUnicodeString(text) {
