@@ -31,15 +31,30 @@ function loadStats(numInterruptions, totalFillerWords, fillerWordPercentage, fil
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meeting Report</title>
 </head>
-<body>
-  <h1>Meeting Stats: </h1>
+<style>
+  body {
+    background-color: #D3E6FF;
+    color: #1578FF;
+    font-family: 'Google Sans',Roboto,Arial,sans-serif;
+    padding: 15px;
+  }
+  h1 {
+    font-size: 50px;
+  }
+  li {
+    margin: 20px 0;
+    font-size: 40px;
+  }
+</style>
+<body >
+  <h1>Meeting Stats</h1>
   <ul>
-    <li>You interrupted others ${numInterruptions} time${numInterruptions == 1 ? "" : "s"}</li>
-    <li>You said ${totalFillerWords} filler word${totalFillerWords == 1 ? "" : "s"}, that's ${fillerWordPercentage}%</li>
+    <li>You interrupted others <strong>${numInterruptions} time${numInterruptions == 1 ? "" : "s"}</strong></li>
+    <li>You said <strong>${totalFillerWords} filler word${totalFillerWords == 1 ? "" : "s"}</strong>, that's <strong>${fillerWordPercentage}%</strong></li>
       <ul>
       <li>${fillerWordComment}</li>
       </ul>
-    <li>You spoke ${timesSpoken} time${timesSpoken == 1 ? "" : "s"}</li>
+    <li>You spoke <strong>${timesSpoken} time${timesSpoken == 1 ? "" : "s"}</strong></li>
   <ul>
 </body>
 </html>
