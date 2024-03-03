@@ -18,10 +18,37 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     downloadTranscript()
   }
   return true
-})
+});
+
+function loadStats(numInterruptions) {
+  // testing the open in new page
+  // Create a simple HTML content
+  const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My HTML Page</title>
+</head>
+<body>
+  <h1>Hello, World! ${numInterruptions}</h1>
+  <p>This is a simple HTML page created dynamically.</p>
+</body>
+</html>
+`;
+
+  // Encode the HTML content as a data URL
+  const dataUrl = 'data:text/html;base64,' + btoa(htmlContent);
+
+  // Open the data URL in a new tab
+  chrome.tabs.create({ url: dataUrl });
+
+}
 
 function downloadTranscript() {
   chrome.storage.local.get(["numInterruptions", "transcript", "meetingTitle", "meetingStartTimeStamp"], function (result) {
+    loadStats(result.numInterruptions);
     if (result.transcript) {
       const fileName = result.meetingTitle && result.meetingStartTimeStamp ? `TranscripTonic/Transcript-${result.meetingTitle} at ${result.meetingStartTimeStamp}.txt` : `TranscripTonic/Transcript.txt`
 

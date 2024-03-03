@@ -138,7 +138,8 @@ function showInterruption() {
     obj.style.display = "none";
   }, 4000);
 
-  obj.style.cssText = `color: #2A9ACA; ${commonCSS};`;
+  // obj.style.cssText = `color: #2A9ACA; ${commonCSS};`;
+  obj.style.cssText = alertCSS;
   text.innerHTML = "Oops! We think you interrupted someone!";
   closeButton.innerHTML = "x";
   closeButton.style.cssText = "position: absolute; top: 5px; right: 5px; cursor: pointer; background: none; border: none; padding: 0; font-size: 16px; line-height: 1; color: #000;";
@@ -153,6 +154,27 @@ function showInterruption() {
   if (html)
     html.append(obj);
 }
+
+const alertCSS = `background-color: #E9E6E6;
+font-family: 'Google Sans',Roboto,Arial,sans-serif;
+opacity: 0.91;
+border: 2px solid #656363;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+backdrop-filter: blur(16px);
+position: fixed;
+top: 5%;
+left: 0;
+right: 0;
+margin-left: auto;
+margin-right: auto;
+max-width: 780px;
+z-index: 1000;
+padding: 0rem 1rem;
+border-radius: 8px;`;
 
 function showNotification(extensionStatusJSON) {
   // Banner CSS
@@ -269,6 +291,7 @@ function transcriber(mutationsList, observer) {
             transcriptTextBuffer = currentTranscriptText;
           }
           else { // SAME PERSON SPEAKING
+            showInterruption();
             transcriptTextBuffer += currentTranscriptText.substring(currentTranscriptText.indexOf(beforeTranscriptText) + beforeTranscriptText.length)
             beforeTranscriptText = currentTranscriptText
           }
