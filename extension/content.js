@@ -34,7 +34,7 @@ checkExtensionStatus().then(() => {
           }, 5000);
 
           chrome.storage.sync.get(["operationMode"], function (result) {
-            if (result.operationMode == "manual")
+            if (result.operationM-ode == "manual")
               console.log("Manual mode selected, leaving transcript off")
             else
               captionsButton.click()
