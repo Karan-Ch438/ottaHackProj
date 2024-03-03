@@ -14,7 +14,7 @@ let meetingStartTimeStamp = new Date().toLocaleString("default", options).replac
 let meetingTitle = document.title
 const extensionStatusJSON_bug = {
   "status": 400,
-  "message": "<strong>TranscripTonic seems to have an error</strong> <br /> Please report it <a href='https://github.com/vivek-nexus/transcriptonic/issues' target='_blank'>here</a>."
+  "message": "<strong>Name seems to have an error</strong>"
 }
 
 checkExtensionStatus().then(() => {
@@ -27,19 +27,13 @@ checkExtensionStatus().then(() => {
       checkElement(".google-material-icons", "call_end").then(() => {
         if (contains(".material-icons-extended", "closed_caption_off")[0]) {
           const captionsButton = contains(".material-icons-extended", "closed_caption_off")[0]
+          captionsButton.click();
 
           console.log("Meeting started")
           setTimeout(() => {
             // pick up meeting name after a delay
             meetingTitle = updateMeetingTitle()
           }, 5000);
-
-          chrome.storage.sync.get(["operationMode"], function (result) {
-            if (result.operationMode == "manual")
-              console.log("Manual mode selected, leaving transcript off")
-            else
-              captionsButton.click()
-          })
 
           const targetNode = document.querySelector('.a4cQT') ? document.querySelector('.a4cQT') : undefined
           const config = { childList: true, attributes: true, subtree: true };
@@ -49,14 +43,7 @@ checkExtensionStatus().then(() => {
           // Start observing the target node for configured mutations
           if (targetNode) {
             observer.observe(targetNode, config)
-            chrome.storage.sync.get(["operationMode"], function (result) {
-              if (result.operationMode == "manual")
-                showNotification({ status: 400, message: "<strong>TranscripTonic is not running</strong> <br /> Turn on captions using the CC icon, if needed" })
-              else
-                showNotification(extensionStatusJSON)
-            })
-          }
-          else {
+          } else {
             showNotification(extensionStatusJSON_bug)
           }
 
@@ -159,16 +146,7 @@ function showNotification(extensionStatusJSON) {
   // Banner CSS
   let html = document.querySelector("html");
   let obj = document.createElement("div");
-  let logo = document.createElement("img");
   let text = document.createElement("p");
-
-  logo.setAttribute(
-    "src",
-    "https://ejnana.github.io/transcripto-status/icon.png"
-  );
-  logo.setAttribute("height", "32px");
-  logo.setAttribute("width", "32px");
-  logo.style.cssText = "border-radius: 4px";
 
   // Remove banner after 5s
   setTimeout(() => {
@@ -176,7 +154,7 @@ function showNotification(extensionStatusJSON) {
   }, 5000);
 
   if (extensionStatusJSON.status == 200) {
-    obj.style.cssText = `color: #2A9ACA; ${commonCSS}`;
+    obj.style.cssText = `color: #651B16; ${commonCSS}`;
     text.innerHTML = extensionStatusJSON.message;
   }
   else {
@@ -322,7 +300,7 @@ function updateMeetingTitle() {
 async function checkExtensionStatus() {
   // Set default value as 200
   chrome.storage.local.set({
-    extensionStatusJSON: { status: 200, message: "<strong>TranscripTonic is running</strong> <br /> Do not turn off captions" },
+    extensionStatusJSON: { status: 200, message: "<strong>Name is running</strong> <br /> Do not turn off captions" },
   });
 
   // https://stackoverflow.com/a/42518434
