@@ -134,7 +134,9 @@ function top5words() {
 
             // Create items array
             var wordItems = Object.keys(wordsFrequency).map(function(key) {
-                return [key, wordsFrequency[key]];
+                if (key != '') {
+                    return [key, wordsFrequency[key]];
+                }
             });
             
             // Sort the array based on the second element
