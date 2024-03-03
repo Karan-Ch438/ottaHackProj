@@ -7,4 +7,6 @@ I am testing a PR on the "testing" branch
 
 source repo: https://github.com/guocaoyi/create-chrome-ext/tree/main
 
-npm install, npm run build, npm run dev? (from within my-crx)
+To use: 
+1. pload the extension folder to chrome://extensions
+2. Visit a Google Meet and enjoy!
