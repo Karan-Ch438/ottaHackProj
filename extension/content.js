@@ -127,7 +127,7 @@ function showInterruption() {
 
   obj.style.cssText = commonCSS;
   text.innerHTML = "<strong>Oops! We think you interrupted someone!</strong>";
-  text.style.cssText = 'color: #651B16;'
+  text.style.cssText = 'color: #1578FF;'
   closeButton.innerHTML = "x";
   closeButton.style.cssText = "position: absolute; top: 5px; right: 7px; cursor: pointer; background: none; border: none; padding: 0; font-size: 16px; line-height: 1; color: #651B16;";
 
@@ -168,9 +168,9 @@ function showNotification(extensionStatusJSON) {
     html.append(obj);
 }
 
-const commonCSS = `background-color: #CABDBD;
+const commonCSS = `background-color: #D3E6FF;
 font-family: 'Google Sans',Roboto,Arial,sans-serif;
-font-color: #651B16;
+font-color: #1578FF;
 font-size: 20px;
 opacity: 0.91;
 display: flex;
