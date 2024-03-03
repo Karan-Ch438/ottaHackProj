@@ -25,7 +25,7 @@ window.onload = function () {
           console.log(response);
         });
       else
-        alert("Couldn't find the last meeting's transcript. May be attend one?")
+        alert("Couldn't find the last meeting's transcript. Maybe you should try attending one?")
     })
   })
 }
