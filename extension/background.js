@@ -84,7 +84,7 @@ function processInfo() {
 
       lines.push("---")
       lines.push("number of interruptions: " + result.numInterruptions)
-      lines.push("Transcript saved using TranscripTonic Chrome extension (https://chromewebstore.google.com/detail/ciepnfnceimjehngolkijpnbappkkiag)")
+      lines.push("Transcript analyzed by Wait Your Turn.")
 
 
       // Join the lines into a single string
@@ -102,8 +102,8 @@ function processInfo() {
           let line = entry.personTranscript
           line = line.replace(/[^\w'\s]+/g, '').toLowerCase()
           let split_lines = line.split(/\s+/)
-          for (word of split_lines) {
-            symbolsToRemove = [',', '.', '?', '!']
+          for (let word of split_lines) {
+            const symbolsToRemove = [',', '.', '?', '!']
             symbolsToRemove.forEach(element => {
               word = word.replace(element, '')
             });

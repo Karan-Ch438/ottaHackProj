@@ -14,7 +14,7 @@ let meetingStartTimeStamp = new Date().toLocaleString("default", options).replac
 let meetingTitle = document.title
 const extensionStatusJSON_bug = {
   "status": 400,
-  "message": "<strong>Name seems to have an error</strong>"
+  "message": "<strong>Wait Your Turn could not read captions</strong>"
 }
 
 checkExtensionStatus().then(() => {
@@ -121,7 +121,7 @@ function showInterruption() {
   let closeButton = document.createElement("button");
 
   // Remove banner after 4s
-  timeoutId = setTimeout(() => {
+  const timeoutId = setTimeout(() => {
     obj.style.display = "none";
   }, 4000);
 
@@ -300,7 +300,7 @@ function updateMeetingTitle() {
 async function checkExtensionStatus() {
   // Set default value as 200
   chrome.storage.local.set({
-    extensionStatusJSON: { status: 200, message: "<strong>Name is running</strong> <br /> Do not turn off captions" },
+    extensionStatusJSON: { status: 200, message: "<strong>Wait Your Turn is running</strong> <br /> Do not turn off captions" },
   });
 
   // https://stackoverflow.com/a/42518434

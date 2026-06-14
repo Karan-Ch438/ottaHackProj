@@ -2,7 +2,7 @@
     "name": "Wait Your Turn",
     "version": "2.0.1",
     "manifest_version": 3,
-    "description": "Simple Google Meet transcripts. Private and open source.",
+    "description": "Google Meet communication coach that detects interruptions, filler words, and speaking patterns.",
     "action": {
       "default_icon": "icon.png",
       "default_popup": "popup.html"

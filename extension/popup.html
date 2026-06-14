@@ -1,26 +1,32 @@
-<!-- popup.html -->
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Name</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wait Your Turn</title>
   <style>
     body {
       background-color: #D3E6FF;
-      min-width: 200px;
-      min-height: 100px;
+      min-width: 240px;
+      min-height: 120px;
+      margin: 0;
+      padding: 16px;
+      font-family: 'Google Sans', Roboto, Arial, sans-serif;
     }
 
     h2, h3, p {
       color: #1578FF;
     }
+
+    h2 {
+      margin-top: 0;
+    }
   </style>
 </head>
-
 <body>
-  <h2>Welcome to our Chrome extension!</h2>
-  <h3>How to use:</h3>
-  <p>Participate in your meeting as usual. If it's detected that you've interrupted someone, you'll get a dismissible popup. After the call, you'll be able to see some fun meeting stats in a new tab!</p>
+  <h2>Wait Your Turn</h2>
+  <h3>How to use</h3>
+  <p>Join a Google Meet as usual and keep captions on. The extension watches caption changes to estimate interruptions, filler words, and speaking frequency.</p>
+  <p>After the call, it opens a simple meeting report with your communication stats.</p>
 </body>
-
 </html>
